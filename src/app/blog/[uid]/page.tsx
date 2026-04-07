@@ -100,14 +100,16 @@ export default async function PostPage({
     })
   );
 
+  const backButtonClass =
+    "group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 hover:shadow-zinc-800/10 xl:absolute xl:mb-0 xl:-left-16 xl:top-0";
+
   return (
     <div className="pt-16 pb-20 sm:pt-20">
-      <div className="xl:relative">
-        <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-2xl xl:relative">
           <Link
             href="/blog"
             aria-label="Go back to articles"
-            className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 hover:shadow-zinc-800/10 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0"
+            className={backButtonClass}
           >
             <svg
               viewBox="0 0 16 16"
@@ -132,7 +134,7 @@ export default async function PostPage({
 
           <article>
             <header className="flex flex-col">
-              <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+              <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
                 {asText(title)}
               </h1>
               <div className="mt-4 flex items-center gap-4 flex-wrap">
@@ -170,7 +172,6 @@ export default async function PostPage({
               })}
             </div>
           </article>
-        </div>
       </div>
     </div>
   );

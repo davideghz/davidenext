@@ -76,7 +76,7 @@ export default async function HomePage() {
             title="If you know what I'm talking about"
             className="group -m-1 p-1"
           >
-            <GitHubIcon className="h-7 w-7 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
+            <GitHubIcon className="h-9 w-9 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
           </a>
           <a
             href="https://it.linkedin.com/in/davideghezzi"
@@ -86,7 +86,7 @@ export default async function HomePage() {
             title="If you don't"
             className="group -m-1 p-1"
           >
-            <LinkedInIcon className="h-7 w-7 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
+            <LinkedInIcon className="h-9 w-9 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
           </a>
         </div>
 
