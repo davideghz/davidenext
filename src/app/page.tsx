@@ -91,7 +91,7 @@ export default async function HomePage() {
         </div>
 
         {/* Role */}
-        <p className="text-base text-zinc-600 dark:text-zinc-400 mb-10">
+        <p className="text-base text-zinc-600 dark:text-zinc-400">
           Currently Product Director at{" "}
           <a
             href="https://www.bakeca.it"
@@ -135,8 +135,10 @@ export default async function HomePage() {
               );
             })}
           </div>
+          <p className="mt-4 text-sm text-zinc-400 dark:text-zinc-500">
+            Thanks for all the love and coffee! :)
+          </p>
         </div>
-
 
         {/* Blog link */}
         <Link
