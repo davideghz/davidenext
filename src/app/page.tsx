@@ -136,7 +136,7 @@ export default async function HomePage() {
             })}
           </div>
           <p className="mt-4 text-sm text-zinc-400 dark:text-zinc-500">
-            Thanks for all the love and coffee! :)
+            Thanks for all the love ❤️ and coffee ☕!
           </p>
         </div>
 
