@@ -2,6 +2,7 @@ import { createClient } from "@/lib/prismic";
 import { asText } from "@prismicio/client";
 import type { WorkHomeDocument } from "@/types/prismic";
 import Image from "next/image";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -50,63 +51,71 @@ export default async function HomePage() {
     <div className="pt-16 pb-20 sm:pt-20">
       <div className="mx-auto max-w-2xl">
 
-        {/* Hero */}
-        <div className="mb-16">
-          {image.url && (
-            <div className="mb-8">
-              <Image
-                src={image.url}
-                alt={image.alt ?? headline}
-                width={64}
-                height={64}
-                className="rounded-full"
-                priority
-              />
-            </div>
-          )}
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+        {/* Photo */}
+        {image.url && (
+          <div className="mb-6">
+            <Image
+              src={image.url}
+              alt={image.alt ?? headline}
+              width={80}
+              height={80}
+              className="rounded-full"
+              priority
+            />
+          </div>
+        )}
+
+        {/* Headline block — h1 + h2 tightly coupled, no space between */}
+        <div className="mb-4">
+          <h1 className="text-4xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 leading-snug">
             {headline}
           </h1>
-          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {description}{" "}
-            Currently Product Director at{" "}
-            <a
-              href="https://www.bakeca.it"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-indigo-500 dark:text-indigo-400 hover:underline underline-offset-2"
-            >
-              Bakeca.it
-            </a>
-            .
+          <p className="text-2xl font-normal text-zinc-500 dark:text-zinc-400 leading-snug mt-1">
+            {description}
           </p>
-          <div className="mt-6 flex gap-5">
-            <a
-              href="https://github.com/davideghz"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              title="If you know what I'm talking about"
-              className="group -m-1 p-1"
-            >
-              <GitHubIcon className="h-8 w-8 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
-            </a>
-            <a
-              href="https://it.linkedin.com/in/davideghezzi"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              title="If you don't"
-              className="group -m-1 p-1"
-            >
-              <LinkedInIcon className="h-8 w-8 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
-            </a>
-          </div>
         </div>
 
+        {/* Social icons — right after headline */}
+        <div className="flex gap-3 mb-6">
+          <a
+            href="https://github.com/davideghz"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            title="If you know what I'm talking about"
+            className="group -m-1 p-1"
+          >
+            <GitHubIcon className="h-7 w-7 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
+          </a>
+          <a
+            href="https://it.linkedin.com/in/davideghezzi"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            title="If you don't"
+            className="group -m-1 p-1"
+          >
+            <LinkedInIcon className="h-7 w-7 fill-indigo-500 transition group-hover:fill-indigo-600 dark:fill-indigo-400 dark:group-hover:fill-indigo-300" />
+          </a>
+        </div>
+
+        {/* Role */}
+        <p className="text-base text-zinc-600 dark:text-zinc-400 mb-10">
+          Currently Product Director at{" "}
+          <a
+            href="https://www.bakeca.it"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-indigo-500 dark:text-indigo-400 hover:underline underline-offset-2"
+          >
+            Bakeca.it
+          </a>
+          .
+        </p>
+
         {/* Clients */}
-        <div className="mb-16">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+        <div className="mb-10">
+          <p className="text-base text-zinc-600 dark:text-zinc-400 mb-4">
             Over the last years I&apos;ve been lucky enough to work with these incredible people:
           </p>
           <div className="flex flex-wrap gap-2">
@@ -139,7 +148,7 @@ export default async function HomePage() {
 
         {/* Work history */}
         {workItems.length > 0 && (
-          <div>
+          <div className="mb-10">
             <ol className="space-y-4">
               {workItems.map((item, i) => {
                 const logoUrl =
@@ -179,6 +188,17 @@ export default async function HomePage() {
             </ol>
           </div>
         )}
+
+        {/* Blog link */}
+        <Link
+          href="/blog"
+          className="group inline-flex items-center gap-1 text-base text-zinc-600 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+        >
+          Sometimes I post here my thoughts
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4 stroke-current transition-transform group-hover:translate-x-0.5">
+            <path d="M6.75 5.75 9.25 8l-2.5 2.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
 
       </div>
     </div>
