@@ -115,7 +115,7 @@ export default async function PostPage({
               </div>
             </header>
 
-            <div className="prose mt-8">
+            <div className="prose prose-zinc dark:prose-invert mt-8">
               {body.map((slice, i) => {
                 if (slice.slice_type === "text") {
                   return <PrismicRichText key={i} field={slice.primary.text} />;
