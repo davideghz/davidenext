@@ -58,17 +58,3 @@ export type ClientsListDocument = PrismicDocument<
   },
   "clientslist"
 >;
-
-export type WorkHomeDocument = PrismicDocument<
-  {
-    work_history: GroupField<{
-      company: KeyTextField;
-      role: KeyTextField;
-      start_date: KeyTextField;
-      end_date: KeyTextField;
-      company_url: LinkField;
-      logo: ImageField;
-    }>;
-  },
-  "workhome"
->;

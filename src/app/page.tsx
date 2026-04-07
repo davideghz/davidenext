@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/prismic";
 import { asText } from "@prismicio/client";
-import type { WorkHomeDocument } from "@/types/prismic";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,14 +32,6 @@ export default async function HomePage() {
     client.getSingle("bloghome"),
     client.getSingle("clientslist"),
   ]);
-
-  let workItems: WorkHomeDocument["data"]["work_history"] = [];
-  try {
-    const workDoc = (await client.getSingle("workhome")) as WorkHomeDocument;
-    workItems = workDoc.data.work_history;
-  } catch {
-    // custom type not created yet
-  }
 
   const headline = asText(bloghome.data.headline);
   const description = asText(bloghome.data.description);
@@ -146,48 +137,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Work history */}
-        {workItems.length > 0 && (
-          <div className="mb-10">
-            <ol className="space-y-4">
-              {workItems.map((item, i) => {
-                const logoUrl =
-                  item.logo && "url" in item.logo ? (item.logo as { url?: string }).url : undefined;
-                return (
-                  <li key={i} className="flex gap-4">
-                    <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-                      {logoUrl ? (
-                        <Image
-                          src={logoUrl}
-                          alt={item.company ?? ""}
-                          width={32}
-                          height={32}
-                          className="h-7 w-7 rounded-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          {item.company?.slice(0, 2).toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                    <dl className="flex flex-auto flex-wrap gap-x-2">
-                      <dt className="sr-only">Company</dt>
-                      <dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                        {item.company}
-                      </dd>
-                      <dt className="sr-only">Role</dt>
-                      <dd className="text-xs text-zinc-500 dark:text-zinc-400">{item.role}</dd>
-                      <dt className="sr-only">Date</dt>
-                      <dd className="ml-auto text-xs text-zinc-400 dark:text-zinc-500 tabular-nums">
-                        {item.start_date}{" — "}{item.end_date || "Present"}
-                      </dd>
-                    </dl>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-        )}
 
         {/* Blog link */}
         <Link
