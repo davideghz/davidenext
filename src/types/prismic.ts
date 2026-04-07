@@ -10,7 +10,6 @@ import type {
   SliceZone,
 } from "@prismicio/client";
 
-// bloghome
 export type BlogHomeDocument = PrismicDocument<
   {
     headline: RichTextField;
@@ -20,7 +19,6 @@ export type BlogHomeDocument = PrismicDocument<
   "bloghome"
 >;
 
-// post
 export type TextSlice = Slice<
   "text",
   { text: RichTextField },
@@ -45,7 +43,6 @@ export type PostDocument = PrismicDocument<
   "post"
 >;
 
-// clientslist
 export type ClientsListDocument = PrismicDocument<
   {
     clientslist: GroupField<{
@@ -54,4 +51,18 @@ export type ClientsListDocument = PrismicDocument<
     }>;
   },
   "clientslist"
+>;
+
+export type WorkHomeDocument = PrismicDocument<
+  {
+    work_history: GroupField<{
+      company: KeyTextField;
+      role: KeyTextField;
+      start_date: KeyTextField;
+      end_date: KeyTextField;
+      company_url: LinkField;
+      logo: ImageField;
+    }>;
+  },
+  "workhome"
 >;

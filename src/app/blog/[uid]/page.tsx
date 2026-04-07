@@ -22,7 +22,9 @@ export async function generateMetadata({
   const client = createClient();
   try {
     const post = await client.getByUID("post", uid);
-    return { title: `${asText((post as PostDocument).data.title)} — Davide Ghezzi` };
+    return {
+      title: `${asText((post as PostDocument).data.title)} — Davide Ghezzi`,
+    };
   } catch {
     return { title: "Post — Davide Ghezzi" };
   }
@@ -55,61 +57,82 @@ export default async function PostPage({
   const { title, date, tags, body } = post.data;
 
   return (
-    <>
-      <div className="mb-12">
-        <Link
-          href="/blog"
-          className="text-xs uppercase tracking-widest text-neutral-400 hover:text-[#6b85fc] transition-colors"
-        >
-          ← Writing
-        </Link>
-      </div>
+    <div className="pt-16 pb-20 sm:pt-20">
+      <div className="xl:relative">
+        <div className="mx-auto max-w-2xl">
+          <Link
+            href="/blog"
+            aria-label="Go back to articles"
+            className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 hover:shadow-zinc-800/10 lg:absolute lg:-left-5 lg:mb-0 lg:-mt-2 xl:-top-1.5 xl:left-0 xl:mt-0"
+          >
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              className="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400"
+            >
+              <path
+                d="M7.25 11.25 4.75 8l2.5-3.25"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M11.25 8H4.75"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
 
-      <article>
-        <header className="mb-12">
-          <h1 className="font-serif text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight tracking-tight mb-6">
-            {asText(title)}
-          </h1>
-
-          <hr className="border-neutral-200 mb-6" />
-
-          <div className="flex items-center gap-4 flex-wrap">
-            {date && (
-              <time dateTime={date} className="text-xs uppercase tracking-widest text-neutral-400">
-                {formatDate(date)}
-              </time>
-            )}
-            {tags && tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {tags.map((t, i) => (
-                  <span
-                    key={i}
-                    className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-400 rounded-full"
+          <article>
+            <header className="flex flex-col">
+              <h1 className="mt-6 font-serif text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                {asText(title)}
+              </h1>
+              <div className="mt-4 flex items-center gap-4 flex-wrap">
+                {date && (
+                  <time
+                    dateTime={date}
+                    className="order-first text-base text-zinc-400 dark:text-zinc-500"
                   >
-                    {t.tag}
-                  </span>
-                ))}
+                    {formatDate(date)}
+                  </time>
+                )}
+                {tags && tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {tags.map((t, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-500 dark:bg-indigo-500/10 dark:text-indigo-400"
+                      >
+                        {t.tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </header>
+            </header>
 
-        <div className="prose">
-          {body.map((slice, i) => {
-            if (slice.slice_type === "text") {
-              return <PrismicRichText key={i} field={slice.primary.text} />;
-            }
-            if (slice.slice_type === "quote") {
-              return (
-                <blockquote key={i}>
-                  <PrismicRichText field={slice.primary.description} />
-                </blockquote>
-              );
-            }
-            return null;
-          })}
+            <div className="prose mt-8">
+              {body.map((slice, i) => {
+                if (slice.slice_type === "text") {
+                  return <PrismicRichText key={i} field={slice.primary.text} />;
+                }
+                if (slice.slice_type === "quote") {
+                  return (
+                    <blockquote key={i}>
+                      <PrismicRichText field={slice.primary.description} />
+                    </blockquote>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </article>
         </div>
-      </article>
-    </>
+      </div>
+    </div>
   );
 }

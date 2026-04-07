@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,16 +21,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#f9f9f7] text-neutral-800 font-sans">
-        <div className="max-w-3xl mx-auto px-8 py-20">{children}</div>
+      <body className="min-h-full bg-zinc-50 dark:bg-black text-zinc-800 dark:text-zinc-100 font-sans">
+        <div className="max-w-4xl mx-auto px-6 sm:px-8">{children}</div>
       </body>
     </html>
   );
