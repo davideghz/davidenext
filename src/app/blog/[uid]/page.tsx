@@ -132,7 +132,7 @@ export default async function PostPage({
 
           <article>
             <header className="flex flex-col">
-              <h1 className="mt-6 font-serif text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+              <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
                 {asText(title)}
               </h1>
               <div className="mt-4 flex items-center gap-4 flex-wrap">

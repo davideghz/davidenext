@@ -6,10 +6,6 @@
   --font-serif: var(--font-playfair);
 }
 
-/* Override typography plugin for headings → use Playfair */
-.prose :where(h1, h2, h3, h4):not(:where([class~="not-prose"] *)) {
-  font-family: var(--font-playfair);
-}
 
 /* Blockquote accent color */
 .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
