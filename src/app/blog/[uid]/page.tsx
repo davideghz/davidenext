@@ -56,24 +56,26 @@ export default async function PostPage({
 
   return (
     <>
-      <div className="mb-10">
+      <div className="mb-12">
         <Link
           href="/blog"
-          className="text-sm text-neutral-400 hover:text-[#6b85fc] transition-colors"
+          className="text-xs uppercase tracking-widest text-neutral-400 hover:text-[#6b85fc] transition-colors"
         >
-          ← Blog
+          ← Writing
         </Link>
       </div>
 
       <article>
-        {/* Header */}
-        <header className="mb-10">
-          <h1 className="font-serif text-4xl font-bold leading-tight mb-4">
+        <header className="mb-12">
+          <h1 className="font-serif text-[clamp(2.5rem,6vw,4rem)] font-bold leading-tight tracking-tight mb-6">
             {asText(title)}
           </h1>
+
+          <hr className="border-neutral-200 mb-6" />
+
           <div className="flex items-center gap-4 flex-wrap">
             {date && (
-              <time dateTime={date} className="text-sm text-neutral-400">
+              <time dateTime={date} className="text-xs uppercase tracking-widest text-neutral-400">
                 {formatDate(date)}
               </time>
             )}
@@ -82,7 +84,7 @@ export default async function PostPage({
                 {tags.map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-500 rounded-full"
+                    className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-400 rounded-full"
                   >
                     {t.tag}
                   </span>
@@ -92,18 +94,11 @@ export default async function PostPage({
           </div>
         </header>
 
-        {/* Body slices */}
         <div className="prose">
           {body.map((slice, i) => {
             if (slice.slice_type === "text") {
-              return (
-                <PrismicRichText
-                  key={i}
-                  field={slice.primary.text}
-                />
-              );
+              return <PrismicRichText key={i} field={slice.primary.text} />;
             }
-
             if (slice.slice_type === "quote") {
               return (
                 <blockquote key={i}>
@@ -111,7 +106,6 @@ export default async function PostPage({
                 </blockquote>
               );
             }
-
             return null;
           })}
         </div>

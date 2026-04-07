@@ -13,7 +13,6 @@ export default async function HomePage() {
     client.getSingle("clientslist"),
   ]);
 
-  const headline = asText(bloghome.data.headline);
   const description = asText(bloghome.data.description);
   const image = bloghome.data.image;
   const clients = clientsDoc.data.clientslist;
@@ -21,44 +20,47 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="mb-16">
-        <div className="flex items-center gap-5 mb-5">
+      <section className="mb-20">
+        <div className="flex items-end gap-5 mb-3">
           {image.url && (
             <Image
               src={image.url}
-              alt={image.alt ?? headline}
-              width={72}
-              height={72}
-              className="rounded-full shrink-0"
+              alt={image.alt ?? "Davide Ghezzi"}
+              width={56}
+              height={56}
+              className="rounded-full shrink-0 mb-2"
               priority
             />
           )}
-          <div>
-            <h1 className="font-serif text-3xl font-bold leading-tight">
-              {headline}
-            </h1>
-            <p className="text-neutral-500 mt-1">{description}</p>
-          </div>
+          <p className="text-sm text-neutral-400 mb-3">Hi, I&apos;m</p>
         </div>
 
-        <p className="text-sm text-neutral-500 mb-4">
+        <h1 className="font-serif text-[clamp(4rem,12vw,7rem)] font-bold leading-none tracking-tight mb-8">
+          Davide.
+        </h1>
+
+        <hr className="border-neutral-200 mb-8" />
+
+        <p className="text-lg text-neutral-600 mb-3">{description}</p>
+
+        <p className="text-sm text-neutral-400 mb-6">
           Currently Product Director{" "}
           <a
             href="https://www.bakeca.it"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#6b85fc] hover:underline"
+            className="text-[#6b85fc] hover:underline underline-offset-2"
           >
             @Bakeca.it
           </a>
         </p>
 
-        <div className="flex gap-5">
+        <div className="flex gap-6">
           <a
             href="https://github.com/davideghz"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-neutral-400 hover:text-[#6b85fc] transition-colors"
+            className="text-xs uppercase tracking-widest text-neutral-400 hover:text-[#6b85fc] transition-colors"
             title="If you know what I'm talking about"
           >
             GitHub
@@ -67,7 +69,7 @@ export default async function HomePage() {
             href="https://it.linkedin.com/in/davideghezzi"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-neutral-400 hover:text-[#6b85fc] transition-colors"
+            className="text-xs uppercase tracking-widest text-neutral-400 hover:text-[#6b85fc] transition-colors"
             title="If you don't"
           >
             LinkedIn
@@ -76,44 +78,59 @@ export default async function HomePage() {
       </section>
 
       {/* Clients */}
-      <section className="mb-16">
-        <h2 className="font-serif text-base text-neutral-400 mb-5">
-          Companies I&apos;ve worked with
-        </h2>
-        <div className="flex flex-wrap gap-2">
+      <section className="mb-20">
+        <div className="flex items-center gap-4 mb-6">
+          <span className="text-xs uppercase tracking-widest text-neutral-400">
+            Clients
+          </span>
+          <div className="flex-1 h-px bg-neutral-200" />
+        </div>
+
+        <p className="text-neutral-500 leading-relaxed">
           {clients.map((item: { client_name: string | null; client_link: Record<string, unknown> }, i: number) => {
             const url =
-              "url" in item.client_link ? item.client_link.url : undefined;
-            return url ? (
-              <a
-                key={i}
-                href={url as string}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 text-sm rounded-full border border-neutral-200 text-neutral-600 hover:border-[#6b85fc] hover:text-[#6b85fc] transition-colors"
-              >
-                {item.client_name}
-              </a>
-            ) : (
-              <span
-                key={i}
-                className="px-3 py-1 text-sm rounded-full border border-neutral-200 text-neutral-600"
-              >
-                {item.client_name}
+              "url" in item.client_link ? (item.client_link.url as string) : undefined;
+            const isLast = i === clients.length - 1;
+            return (
+              <span key={i}>
+                {url ? (
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-neutral-700 hover:text-[#6b85fc] transition-colors"
+                  >
+                    {item.client_name}
+                  </a>
+                ) : (
+                  <span className="text-neutral-700">{item.client_name}</span>
+                )}
+                {!isLast && (
+                  <span className="text-neutral-300 mx-2">·</span>
+                )}
               </span>
             );
           })}
-        </div>
+        </p>
       </section>
 
       {/* Blog CTA */}
       <section>
+        <div className="flex items-center gap-4 mb-6">
+          <span className="text-xs uppercase tracking-widest text-neutral-400">
+            Writing
+          </span>
+          <div className="flex-1 h-px bg-neutral-200" />
+        </div>
+
         <Link
           href="/blog"
-          className="group inline-flex items-center gap-2 text-neutral-500 hover:text-[#6b85fc] transition-colors"
+          className="group inline-flex items-baseline gap-3 hover:text-[#6b85fc] transition-colors"
         >
-          <span>Sometimes I post here my thoughts</span>
-          <span className="transition-transform group-hover:translate-x-1">
+          <span className="font-serif text-2xl font-bold">
+            Sometimes I post here my thoughts
+          </span>
+          <span className="text-[#6b85fc] text-xl transition-transform group-hover:translate-x-1.5">
             →
           </span>
         </Link>
