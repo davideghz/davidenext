@@ -1,65 +1,123 @@
+import { createClient } from "@/lib/prismic";
+import { asText } from "@prismicio/client";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export const revalidate = 3600;
+
+export default async function HomePage() {
+  const client = createClient();
+
+  const [bloghome, clientsDoc] = await Promise.all([
+    client.getSingle("bloghome"),
+    client.getSingle("clientslist"),
+  ]);
+
+  const headline = asText(bloghome.data.headline);
+  const description = asText(bloghome.data.description);
+  const image = bloghome.data.image;
+  const clients = clientsDoc.data.clientslist;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <>
+      {/* Hero */}
+      <section className="mb-16">
+        <div className="flex items-center gap-5 mb-5">
+          {image.url && (
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={image.url}
+              alt={image.alt ?? headline}
+              width={72}
+              height={72}
+              className="rounded-full shrink-0"
+              priority
             />
-            Deploy Now
-          </a>
+          )}
+          <div>
+            <h1 className="font-serif text-3xl font-bold leading-tight">
+              {headline}
+            </h1>
+            <p className="text-neutral-500 mt-1">{description}</p>
+          </div>
+        </div>
+
+        <p className="text-sm text-neutral-500 mb-4">
+          Currently Product Director{" "}
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://www.bakeca.it"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-[#6b85fc] hover:underline"
           >
-            Documentation
+            @Bakeca.it
+          </a>
+        </p>
+
+        <div className="flex gap-5">
+          <a
+            href="https://github.com/davideghz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-neutral-400 hover:text-[#6b85fc] transition-colors"
+            title="If you know what I'm talking about"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://it.linkedin.com/in/davideghezzi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-neutral-400 hover:text-[#6b85fc] transition-colors"
+            title="If you don't"
+          >
+            LinkedIn
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Clients */}
+      <section className="mb-16">
+        <h2 className="font-serif text-base text-neutral-400 mb-5">
+          Companies I&apos;ve worked with
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {clients.map((item: { client_name: string | null; client_link: Record<string, unknown> }, i: number) => {
+            const url =
+              "url" in item.client_link ? item.client_link.url : undefined;
+            return url ? (
+              <a
+                key={i}
+                href={url as string}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 text-sm rounded-full border border-neutral-200 text-neutral-600 hover:border-[#6b85fc] hover:text-[#6b85fc] transition-colors"
+              >
+                {item.client_name}
+              </a>
+            ) : (
+              <span
+                key={i}
+                className="px-3 py-1 text-sm rounded-full border border-neutral-200 text-neutral-600"
+              >
+                {item.client_name}
+              </span>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Blog CTA */}
+      <section>
+        <Link
+          href="/blog"
+          className="group inline-flex items-center gap-2 text-neutral-500 hover:text-[#6b85fc] transition-colors"
+        >
+          <span>Sometimes I post here my thoughts</span>
+          <span className="transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
+      </section>
+    </>
   );
 }
