@@ -20,7 +20,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <body className="flex h-full bg-zinc-100 dark:bg-black font-sans">
+      <body className="flex h-full bg-white dark:bg-zinc-900 font-sans">
         <ThemeProvider>
           <div className="flex w-full">
             {/* Fixed gray frame */}
