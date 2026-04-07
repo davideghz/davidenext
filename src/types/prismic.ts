@@ -31,7 +31,13 @@ export type QuoteSlice = Slice<
   Record<string, never>
 >;
 
-export type PostBodySlice = TextSlice | QuoteSlice;
+export type CodeSlice = Slice<
+  "code",
+  { code_block: RichTextField },
+  Record<string, never>
+>;
+
+export type PostBodySlice = TextSlice | QuoteSlice | CodeSlice;
 
 export type PostDocument = PrismicDocument<
   {

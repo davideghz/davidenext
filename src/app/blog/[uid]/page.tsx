@@ -5,6 +5,16 @@ import type { PostDocument } from "@/types/prismic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+function parseCodeBlock(raw: string): { lang: string; code: string } {
+  const lines = raw.split("\n");
+  if (lines[0].startsWith("```")) {
+    const lang = lines[0].slice(3).trim();
+    const end = lines[lines.length - 1].trim() === "```" ? -1 : undefined;
+    return { lang, code: lines.slice(1, end).join("\n") };
+  }
+  return { lang: "", code: raw };
+}
+
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
@@ -125,6 +135,22 @@ export default async function PostPage({
                     <blockquote key={i}>
                       <PrismicRichText field={slice.primary.description} />
                     </blockquote>
+                  );
+                }
+                if (slice.slice_type === "code") {
+                  const raw = asText(slice.primary.code_block);
+                  const { lang, code } = parseCodeBlock(raw);
+                  return (
+                    <div key={i} className="not-prose my-6">
+                      {lang && (
+                        <div className="flex items-center gap-2 rounded-t-xl bg-zinc-700 px-4 py-2">
+                          <span className="text-xs font-medium text-zinc-300">{lang}</span>
+                        </div>
+                      )}
+                      <pre className={`overflow-x-auto bg-zinc-800 p-5 text-sm text-zinc-200 ${lang ? "rounded-b-xl" : "rounded-xl"}`}>
+                        <code>{code}</code>
+                      </pre>
+                    </div>
                   );
                 }
                 return null;
