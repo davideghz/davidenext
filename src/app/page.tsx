@@ -58,7 +58,7 @@ export default async function HomePage() {
 
         {/* Headline block — h1 + h2 tightly coupled, no space between */}
         <div className="mb-4">
-          <h1 className="text-4xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 leading-snug">
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 leading-snug sm:text-5xl">
             {headline}
           </h1>
           <p className="text-2xl font-normal text-zinc-500 dark:text-zinc-400 leading-snug mt-1">
