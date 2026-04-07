@@ -106,10 +106,10 @@ export default async function HomePage() {
 
         {/* Clients */}
         <div className="mb-10">
-          <p className="text-base text-zinc-600 dark:text-zinc-400 mb-4">
+          <p className="text-base text-zinc-600 dark:text-zinc-400 mb-6">
             Over the last years I&apos;ve been lucky enough to work with these incredible people:
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-6">
             {clients.map((item: { client_name: string | null; client_link: Record<string, unknown> }, i: number) => {
               const url =
                 "url" in item.client_link
@@ -135,29 +135,27 @@ export default async function HomePage() {
               );
             })}
           </div>
-          <p className="mt-4 text-sm text-zinc-400 dark:text-zinc-500 flex items-center gap-1.5 flex-wrap">
+          <p className="mt-4 text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 flex-wrap">
             Thanks for all the love
             <svg aria-hidden="true" viewBox="0 0 512 512" className="inline h-3.5 w-3.5 fill-red-400">
               <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 13.3 32.6 13.3 45.1 0l193.5-199.8c56.3-58.1 53-154.3-9.9-207.9z" />
             </svg>
             and coffee
             <svg aria-hidden="true" viewBox="0 0 640 512" className="inline h-3.5 w-4 fill-amber-600 dark:fill-amber-500">
-              <path d="M192 384h192c53 0 96-43 96-96h32c70.6 0 128-57.4 128-128S582.6 32 512 32H120c-13.3 0-24 10.7-24 24v232c0 53 43 96 96 96zM512 96c35.3 0 64 28.7 64 64s-28.7 64-64 64h-32V96h32zm47.7 384H48.3c-47.6 0-61-64-36-64h583.4c25 0 11.8 64-36 64zM208 0c-17.7 0-32 14.3-32 32V96h-32V32C144 14.3 129.7 0 112 0S80 14.3 80 32v96h32v-32h32v32h32V32c0-17.7-14.3-32-32-32zm128 0c-17.7 0-32 14.3-32 32V96h-32V32C272 14.3 257.7 0 240 0s-32 14.3-32 32v96h32V96h32v32h32V32c0-17.7-14.3-32-32-32z" />
+              <path fill="currentColor" d="M192 384h192c53 0 96-43 96-96h32c70.6 0 128-57.4 128-128S582.6 32 512 32H120c-13.3 0-24 10.7-24 24v232c0 53 43 96 96 96zM512 96c35.3 0 64 28.7 64 64s-28.7 64-64 64h-32V96h32zm47.7 384H48.3c-47.6 0-61-64-36-64h583.3c25 0 11.8 64-35.9 64z"></path>
             </svg>
-            !
+            :)
           </p>
         </div>
 
         {/* Blog link */}
-        <Link
-          href="/blog"
-          className="group inline-flex items-center gap-1 text-base text-zinc-600 dark:text-zinc-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
-        >
-          Sometimes I post here my thoughts
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4 stroke-current transition-transform group-hover:translate-x-0.5">
-            <path d="M6.75 5.75 9.25 8l-2.5 2.25" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+        <p className="text-base text-zinc-600 dark:text-zinc-400">
+          Sometimes I post{" "}
+          <Link href="/blog" className="text-indigo-500 dark:text-indigo-400 hover:underline underline-offset-2">
+            here
+          </Link>{" "}
+          my thoughts.
+        </p>
 
       </div>
     </div>
