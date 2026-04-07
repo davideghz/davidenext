@@ -2,6 +2,7 @@ import { createClient } from "@/lib/prismic";
 import { asText } from "@prismicio/client";
 import { PrismicRichText } from "@prismicio/react";
 import type { PostDocument } from "@/types/prismic";
+import { CodeBlock } from "@/components/CodeBlock";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -49,6 +50,10 @@ function formatDate(dateString: string | null) {
   });
 }
 
+type RenderedSlice =
+  | { type: "text" | "quote"; key: number; element: React.ReactNode }
+  | { type: "code"; key: number; lang: string; code: string };
+
 export default async function PostPage({
   params,
 }: {
@@ -65,6 +70,35 @@ export default async function PostPage({
   }
 
   const { title, date, tags, body } = post.data;
+
+  // Pre-process slices, resolving code blocks with Shiki
+  const renderedSlices = await Promise.all(
+    body.map(async (slice, i): Promise<RenderedSlice> => {
+      if (slice.slice_type === "text") {
+        return {
+          type: "text",
+          key: i,
+          element: <PrismicRichText field={slice.primary.text} />,
+        };
+      }
+      if (slice.slice_type === "quote") {
+        return {
+          type: "quote",
+          key: i,
+          element: (
+            <blockquote>
+              <PrismicRichText field={slice.primary.description} />
+            </blockquote>
+          ),
+        };
+      }
+      if (slice.slice_type === "code") {
+        const { lang, code } = parseCodeBlock(asText(slice.primary.code_block));
+        return { type: "code", key: i, lang, code };
+      }
+      return { type: "text", key: i, element: null };
+    })
+  );
 
   return (
     <div className="pt-16 pb-20 sm:pt-20">
@@ -126,34 +160,13 @@ export default async function PostPage({
             </header>
 
             <div className="prose prose-zinc dark:prose-invert mt-8">
-              {body.map((slice, i) => {
-                if (slice.slice_type === "text") {
-                  return <PrismicRichText key={i} field={slice.primary.text} />;
-                }
-                if (slice.slice_type === "quote") {
+              {renderedSlices.map((slice) => {
+                if (slice.type === "code") {
                   return (
-                    <blockquote key={i}>
-                      <PrismicRichText field={slice.primary.description} />
-                    </blockquote>
+                    <CodeBlock key={slice.key} lang={slice.lang} code={slice.code} />
                   );
                 }
-                if (slice.slice_type === "code") {
-                  const raw = asText(slice.primary.code_block);
-                  const { lang, code } = parseCodeBlock(raw);
-                  return (
-                    <div key={i} className="not-prose my-6">
-                      {lang && (
-                        <div className="flex items-center gap-2 rounded-t-xl bg-zinc-700 px-4 py-2">
-                          <span className="text-xs font-medium text-zinc-300">{lang}</span>
-                        </div>
-                      )}
-                      <pre className={`overflow-x-auto bg-zinc-800 p-5 text-sm text-zinc-200 ${lang ? "rounded-b-xl" : "rounded-xl"}`}>
-                        <code>{code}</code>
-                      </pre>
-                    </div>
-                  );
-                }
-                return null;
+                return <div key={slice.key}>{slice.element}</div>;
               })}
             </div>
           </article>
